@@ -1,0 +1,12 @@
+services:
+    spotdl:
+        image: spotdl/spotify-downloader
+        container_name: spotdl
+        restart: unless-stopped
+        working_dir: /music
+        ports:
+            - "8800:8800"
+        volumes:
+            - ./appdata/spotdl:/root/.spotdl
+            - /mnt/media/music:/music
+        command: [ "web", "--web-use-output-dir", "--force-update-gui" ]

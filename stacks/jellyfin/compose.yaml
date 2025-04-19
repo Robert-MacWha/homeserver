@@ -1,18 +1,18 @@
 services:
-  jellyfin:
-    image: jellyfin/jellyfin
-    volumes:
-      - /mnt/appdata/jellyfin/config:/config
-      - /mnt/media/cache:/cache
-      - /mnt/media:/media
-    ports:
-      - 8096:8096
-    runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-
+    jellyfin:
+        image: jellyfin/jellyfin
+        container_name: jellyfin
+        volumes:
+            - ./appdata:/config
+            - /mnt/media/cache:/cache
+            - /mnt/media:/media
+        ports:
+            - 8096:8096
+        runtime: nvidia
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: all
+                          capabilities: [ gpu ]

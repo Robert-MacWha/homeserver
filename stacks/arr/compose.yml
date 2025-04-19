@@ -1,0 +1,56 @@
+services:
+    prowlarr:
+        image: linuxserver/prowlarr:latest
+        container_name: prowlarr
+        restart: unless-stopped
+        volumes:
+            - ./appdata/prowlarr:/config
+        ports:
+            - 9696:9696
+        environment:
+            - TZ=America/Toronto
+            - PUID=0
+            - PGID=0
+
+    flaresolverr:
+        image: ghcr.io/flaresolverr/flaresolverr:latest
+        container_name: flaresolverr
+        restart: unless-stopped
+        environment:
+            - TZ=America/Toronto
+
+    sonarr:
+        image: linuxserver/sonarr:latest
+        container_name: sonarr
+        restart: unless-stopped
+        volumes:
+            - ./appdata/sonarr:/config
+        ports:
+            - 8989:8989
+        environment:
+            - TZ=America/Toronto
+            - PUID=0
+            - PGID=0
+
+    radarr:
+        image: linuxserver/radarr:latest
+        container_name: radarr
+        restart: unless-stopped
+        volumes:
+            - ./appdata/radarr:/config
+        ports:
+            - 7878:7878
+        environment:
+            - TZ=America/Toronto
+            - PUID=0
+            - PGID=0
+
+    unpackarr:
+        image: golift/unpackerr
+        container_name: unpackarr
+        restart: unless-stopped
+        environment:
+            - UN_RADARR_0_URL=http://192.168.2.103:7878
+            - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
+            - UN_SONARR_0_URL=http://192.168.2.103:8989
+            - UN_SONARR_0_API_KEY=${SONARR_API_KEY}

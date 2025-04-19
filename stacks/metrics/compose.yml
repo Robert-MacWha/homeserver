@@ -1,0 +1,52 @@
+services:
+    grafana:
+        user: root
+        image: grafana/grafana:10.3.3
+        container_name: grafana
+        restart: unless-stopped
+        depends_on:
+            - prometheus
+        ports:
+            - 3001:3000
+        volumes:
+            - ./appdata/grafana:/var/lib/grafana
+        environment:
+            PROMETHEUS_URL: http://prometheus:9090
+            GF_AUTH_ANONYMOUS_ENABLED: true
+
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        restart: unless-stopped
+        ports:
+            - "9090:9090"
+        volumes:
+            - ./appdata/prometheus:/etc/prometheus
+            - /mnt/documents/prometheus:/prometheus
+        command:
+            - '--storage.tsdb.retention.time=365d'
+            - '--config.file=/etc/prometheus/prometheus.yml'
+
+    pve-exporter:
+        image: prompve/prometheus-pve-exporter
+        container_name: prometheus-pve-exporter
+        restart: unless-stopped
+        init: true
+        ports:
+            - 9221:9221
+        environment:
+            - PVE_USER=prometheus@pam
+            - PVE_PASSWORD=prometheus
+            - PVE_VERIFY_SSL=false
+
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor
+        restart: unless-stopped
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:ro
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+        ports:
+            - "7001:8080"

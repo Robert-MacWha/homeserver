@@ -1,0 +1,66 @@
+services:
+    gluetun:
+        image: ghcr.io/qdm12/gluetun:latest
+        container_name: gluetun
+        restart: unless-stopped
+        cap_add:
+            - NET_ADMIN
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        sysctls:
+            - net.ipv6.conf.all.disable_ipv6=1
+        environment:
+            - VPN_SERVICE_PROVIDER=protonvpn
+            - OPENVPN_USER=${OPENVPN_USER}
+            - OPENVPN_PASSWORD=${OPENVPN_PASS}
+            - VPN_PORT_FORWARDING=on
+            - VPN_PORT_FORWARDING_PROVIDER=protonvpn
+            - SERVER_COUNTRIES=Canada
+            - SERVER_CITIES=Toronto
+            - TZ=America/Toronto
+            - QBT_WEBUI_ENABLED=true
+        volumes:
+            - ./appdata/gluetun:/gluetun
+        ports:
+            - "8080:8080"
+        healthcheck:
+            test: [ "CMD", "wget", "--spider", "-q", "http://google.com" ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+
+    qbittorrent:
+        image: lscr.io/linuxserver/qbittorrent:latest
+        container_name: qbittorrent
+        restart: unless-stopped
+        network_mode: "service:gluetun"
+        depends_on:
+            gluetun:
+                condition: service_healthy
+        environment:
+            - PUID=0
+            - PGID=0
+            - TZ=America/Toronto
+            - WEBUI_PORT=8080
+            - QBITTORRENT_INTERFACE=tun0
+            - DOCKER_MODS=ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main
+            - GSP_GTN_API_KEY=${GSP_GTN_API_KEY:-randomapikey}
+            - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53764}
+            - GSP_MINIMAL_LOGS=false
+        volumes:
+            - ./appdata/qbittorrent:/config
+            - /mnt/media/downloads/torrents:/downloads
+        ulimits:
+            nofile:
+                soft: 32768
+                hard: 65536
+    watchtower:
+        image: containrrr/watchtower
+        container_name: watchtower
+        restart: unless-stopped
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - WATCHTOWER_CLEANUP=true
+            - WATCHTOWER_POLL_INTERVAL=86400
+            - WATCHTOWER_LABEL_ENABLE=true
