@@ -1,0 +1,119 @@
+---
+# Homepage configuration
+# See https://fontawesome.com/v5/search for icons options
+
+title: "Macwha Home Server"
+subtitle: "Personal"
+logo: "logo.png"
+
+header: true
+footer: false
+columns: 4
+
+# Optional theme customization
+theme: dark
+colors:
+  dark:
+    highlight-primary: "#810CA8"
+    highlight-secondary: "#C147E9"
+    highlight-hover: "#E5B8F4"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link: "#3273dc"
+    link-hover: "#ffdd57"
+
+# Optional message
+# message:
+#   #url: https://b4bz.io
+#   style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
+#   content: "Dashboard for services running on home server & other home networks"
+
+# Optional navbar
+# links: [] # Allows for navbar (dark mode, layout, and search) without any links
+links:
+  - name: "HomeServer Repo"
+    icon: "fa-brands fa-github"
+    url: "https://github.com/Robert-MacWha/homeserver"
+  - name: "Cloudflare DNS"
+    icon: "fa-brands fa-cloudflare"
+    url: "https://dash.cloudflare.com/9db1628f8a852bf5b3d8516ccde91942/skylock.xyz"
+
+# Services
+services:
+  - name: "Home Services"
+    icon: "fas fa-house"
+    items:
+      - name: "Jellyfin"
+        logo: "assets/tools/jellyfin.png"
+        url: "http://192.168.2.100:8096"
+      - name: "Immich"
+        logo: "assets/tools/immich.png"
+        url: "http://192.168.2.100:2283"
+      - name: "Handbrake"
+        logo: "assets/tools/handbrake.png"
+        url: "http://192.168.2.100:5800"
+      - name: "Grafana"
+        logo: "assets/tools/grafana.png"
+        url: "http://192.168.2.100:3001"
+
+  - name: "Tools"
+    icon: "fas fa-hammer"
+    items:
+      - name: "Sonarr"
+        logo: "assets/tools/sonarr.png"
+        subtitle: "TV"
+        url: "http://192.168.2.100:8989/"
+      - name: "Radarr"
+        logo: "assets/tools/radarr.png"
+        subtitle: "Movie"
+        url: "http://192.168.2.100:7878/"
+      - name: "SpotDL"
+        logo: "assets/tools/spotdl.png"
+        url: "http://192.168.2.100:8800"
+      - name: "QBittorrent"
+        logo: "assets/tools/qbittorrent.png"
+        url: "http://192.168.2.100:5900/"
+      - name: "Jdownloader"
+        logo: "assets/tools/jdownloader.png"
+        url: "http://192.168.2.100:5900"
+
+  - name: "Hardware"
+    icon: "fas fa-server"
+    items:
+      - name: "Router"
+        logo: "assets/tools/sample.png"
+        url: "http://192.168.2.1"
+      - name: "Home Assistant"
+        logo: "assets/tools/homeassistant.png"
+        url: "http://192.168.2.163:8123/lovelace/0"
+      - name: "Proxmox"
+        logo: "assets/tools/proxmox.png"
+        url: "https://192.168.2.225:8006"
+      - name: "PiKVM"
+        logo: "assets/tools/pikvm.png"
+        url: "https://192.168.2.169/"
+
+  - name: "Managers"
+    icon: "fas fa-bolt"
+    items:
+      - name: "Dockge"
+        logo: "assets/tools/docker.png"
+        url: "http://192.168.2.100:5001"
+      - name: "Nginx"
+        logo: "assets/tools/nginx.png"
+        url: "http://192.168.2.100:81"
+      - name: "Prowlarr"
+        logo: "assets/tools/prowlarr.png"
+        subtitle: "Indexer"
+        url: "http://192.168.2.100:9696/"
+      - name: "Wireguard"
+        logo: "assets/tools/wireguard.png"
+        url: "http://192.168.2.163:8123/2effc9b9_wgeasy/ingress"
+      - name: "Prometheus"
+        logo: "assets/tools/prometheus.png"
+        url: "http://192.168.2.100:9090/"

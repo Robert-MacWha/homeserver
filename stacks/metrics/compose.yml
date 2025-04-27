@@ -15,6 +15,7 @@ services:
             GF_AUTH_ANONYMOUS_ENABLED: true
 
     prometheus:
+        user: root
         image: prom/prometheus
         container_name: prometheus
         restart: unless-stopped
@@ -49,4 +50,13 @@ services:
             - /sys:/sys:ro
             - /var/lib/docker/:/var/lib/docker:ro
         ports:
-            - "7001:8080"
+            - 7001:8080
+
+    node-exporter:
+        image: prom/node-exporter:latest
+        container_name: node-exporter
+        restart: unless-stopped
+        ports:
+            - 9100:9100
+        volumes:
+            - /mnt:/mnt:ro
