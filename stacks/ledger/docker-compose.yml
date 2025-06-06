@@ -10,17 +10,19 @@ services:
             - BEANCOUNT_FILE=/bean/personal.beancount
         volumes:
             - ./appdata/bean:/bean
+            - ./fava:/fava
 
     fava-business:
         container_name: fava-business
         image: yegle/fava
         restart: unless-stopped
         ports:
-            - 6002:5000
+            - 6001:5000
         environment:
             - BEANCOUNT_FILE=/bean/business.beancount
         volumes:
             - ./appdata/bean:/bean
+            - ./fava:/fava
     # hledger-personal:
     #     image: dastapov/hledger
     #     container_name: hledger-personal
