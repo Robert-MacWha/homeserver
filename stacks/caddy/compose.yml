@@ -1,0 +1,28 @@
+services:
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8099:80
+    volumes:
+      - /mnt/media/handbrake/output:/srv:ro
+      - ./appdata/caddy:/etc/caddy
+      - ./appdata/data:/data
+      - ./appdata/config:/config
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    user: 0:0
+    ports:
+      - 8087:80
+    restart: unless-stopped
+    volumes:
+      # Directory mounts (read-write and read-only)
+      - /mnt/media/handbrake:/srv/handbrake
+      - /mnt/media/movies:/srv/movies:ro
+      - /mnt/media/shows:/srv/shows:ro
+      # File mounts (for configuration files)
+      - ./appdata/filebrowser/filebrowser.db:/database.db
+      - ./appdata/filebrowser/filebrowser.json:/.filebrowser.json
+networks: {}
