@@ -1,13 +1,20 @@
 services:
     jellyfin:
-        image: lscr.io/linuxserver/jellyfin
+        image: jellyfin/jellyfin
         container_name: jellyfin
+        restart: unless-stopped
         volumes:
             - ./appdata:/config
             - /mnt/media/cache:/cache
             - /mnt/media:/media
         ports:
             - 8096:8096
+        environment:
+            - NOTE=0 # https://github.com/jellyfin/jellyfin/issues/3717#issuecomment-665966147
+            - JELLYFIN_DATA_DIR=/config/data #Uncomment for Jellyfin Images
+            - JELLYFIN_CONFIG_DIR=/config #Uncomment for Jellyfin Images
+            - JELLYFIN_LOG_DIR=/config/log #Uncomment for Jellyfin Images
+            - JELLYFIN_CACHE_DIR=/config/cache #Uncomment for Jellyfin Images
         runtime: nvidia
         deploy:
             resources:
